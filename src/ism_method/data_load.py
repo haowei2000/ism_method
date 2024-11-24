@@ -1,13 +1,5 @@
-<<<<<<< HEAD:src/ism_method/data_load.py
 import logging
-=======
-<<<<<<< HEAD:src/ism_method/data_load.py
-import logging
-=======
->>>>>>> refs/remotes/origin/main:src/ism/data_load.py
->>>>>>> refs/remotes/origin/main:src/ism/data_load.py
 from pathlib import Path
-from venv import logger
 
 from tqdm import tqdm
 
@@ -30,6 +22,7 @@ def parse_info(text: str) -> dict:
             data[key] = value.strip()
     return data
 
+
 def write2col(collection, delete_old=False):
     # Clear the collection before inserting new data
     if delete_old:
@@ -48,22 +41,25 @@ def write2col(collection, delete_old=False):
                 # Insert the dictionary into MongoDB
                 collection.insert_one(data)
     # Remove duplicates based on the "Title-题名" field
-    duplicates = collection.aggregate([
-        {"$group": {
-            "_id": "$Title-题名",
-            "uniqueIds": {"$addToSet": "$_id"},
-            "count": {"$sum": 1}
-        }},
-        {"$match": {
-            "count": {"$gt": 1}
-        }}
-    ])
+    duplicates = collection.aggregate(
+        [
+            {
+                "$group": {
+                    "_id": "$Title-题名",
+                    "uniqueIds": {"$addToSet": "$_id"},
+                    "count": {"$sum": 1},
+                }
+            },
+            {"$match": {"count": {"$gt": 1}}},
+        ]
+    )
 
     for doc in duplicates:
         unique_ids = doc["uniqueIds"]
         # Keep the first document and remove the rest
         for id_to_remove in unique_ids[1:]:
             collection.delete_one({"_id": id_to_remove})
+
 
 def main():
     collection = get_collection()
