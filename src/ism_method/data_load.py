@@ -1,4 +1,11 @@
+<<<<<<< HEAD:src/ism_method/data_load.py
 import logging
+=======
+<<<<<<< HEAD:src/ism_method/data_load.py
+import logging
+=======
+>>>>>>> refs/remotes/origin/main:src/ism/data_load.py
+>>>>>>> refs/remotes/origin/main:src/ism/data_load.py
 from pathlib import Path
 from venv import logger
 
