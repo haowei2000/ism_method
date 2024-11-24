@@ -1,4 +1,3 @@
-from pathlib import Path
 import pymongo
 import yaml
 
@@ -9,7 +8,7 @@ def load_yaml_config(file_path):
 
 
 def get_collection():
-    config = load_yaml_config(file_path=Path(__file__).parent/"config.yaml")
+    config = load_yaml_config("src/ism/config.yaml")
     client = pymongo.MongoClient(config["mongodb"]["url"])
     db = client[config["mongodb"]["database"]]
     collection = db[config["mongodb"]["collection"]]
