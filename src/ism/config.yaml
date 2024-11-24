@@ -1,6 +1,0 @@
-mongodb:
-  url: mongodb://10.48.48.30:27017/
-  database: ism
-  collection: ism_info
-api:
-  url: http://10.48.48.30:8000/v1
