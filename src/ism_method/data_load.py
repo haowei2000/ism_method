@@ -1,4 +1,3 @@
-from calendar import c
 import logging
 from pathlib import Path
 
