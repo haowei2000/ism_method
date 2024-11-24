@@ -25,3 +25,5 @@ def get_method(abstract: str):
         messages=messages, model="ZhipuAI/glm-4-9b-chat-hf"
     )
     return parse_method(result.choices[0].message.content)
+
+get_method("这是一篇论文的摘要，请提取其研究方法，按照1、2、3、的格式输出,每个方法用一个词语")
