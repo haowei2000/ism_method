@@ -16,7 +16,3 @@ pyyaml = "^6.0.2"
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
-
-[tool.poetry.scripts]
-generate = "ism_method.main:main"
-write = "ism_method.data_load:write2col"
