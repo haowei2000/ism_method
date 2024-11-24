@@ -1,6 +1,10 @@
+from calendar import c
+import logging
 from pathlib import Path
 
 from tqdm import tqdm
+
+from ism_method.mongodb import get_collection
 
 
 def get_all_tex_files(directory):
@@ -19,11 +23,14 @@ def parse_info(text: str) -> dict:
             data[key] = value.strip()
     return data
 
-def write2col(collection, delete_old=False):
+def write2col(delete_old=True):
     # Clear the collection before inserting new data
+    collection = get_collection()
     if delete_old:
         collection.delete_many({})
-    directory = "dataset"
+    else:
+        logging.info("Skipping deletion of old data")
+    directory = Path(__file__)/"dataset"
     txt_files = get_all_tex_files(directory)
     for tex_file in tqdm(txt_files, desc="Processing files"):
         with open(tex_file, "r", encoding="utf-8") as file:

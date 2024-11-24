@@ -1,0 +1,6 @@
+mongodb:
+  url: mongodb://172.17.0.1:27017/
+  database: ism
+  collection: ism_info
+api:
+  url: http://172.17.0.1:8000/v1
