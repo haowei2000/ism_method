@@ -3,6 +3,8 @@ import string
 
 from openai import OpenAI
 
+from ism_method.config import get_config
+
 
 def parse_method(text: str) -> list:
     methods = []
@@ -18,7 +20,7 @@ def parse_method(text: str) -> list:
 
 
 def get_method(abstract: str):
-    client = OpenAI(api_key="0", base_url="http://10.48.48.30:8000/v1")
+    client = OpenAI(api_key="0", base_url=get_config()["api"]["url"])
     template = f"这是一篇论文的摘要，请提取其研究方法，按照1、2、3、的格式输出,每个方法用一个词语{abstract}"
     messages = [{"role": "user", "content": template}]
     result = client.chat.completions.create(
@@ -26,4 +28,3 @@ def get_method(abstract: str):
     )
     return parse_method(result.choices[0].message.content)
 
-get_method("这是一篇论文的摘要，请提取其研究方法，按照1、2、3、的格式输出,每个方法用一个词语")

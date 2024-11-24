@@ -1,6 +1,10 @@
+import logging
 from pathlib import Path
+from venv import logger
 
 from tqdm import tqdm
+
+from ism_method.mongodb import get_collection
 
 
 def get_all_tex_files(directory):
@@ -23,7 +27,9 @@ def write2col(collection, delete_old=False):
     # Clear the collection before inserting new data
     if delete_old:
         collection.delete_many({})
-    directory = "dataset"
+    else:
+        logging.warning("The collection is not cleared before inserting new data.")
+    directory = Path(__file__).parents[2] / "dataset"
     txt_files = get_all_tex_files(directory)
     for tex_file in tqdm(txt_files, desc="Processing files"):
         with open(tex_file, "r", encoding="utf-8") as file:
@@ -51,3 +57,7 @@ def write2col(collection, delete_old=False):
         # Keep the first document and remove the rest
         for id_to_remove in unique_ids[1:]:
             collection.delete_one({"_id": id_to_remove})
+
+def main():
+    collection = get_collection()
+    write2col(collection, delete_old=True)

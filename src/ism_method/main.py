@@ -1,6 +1,6 @@
 import logging
-from get_method import get_method
-from mongodb import get_collection
+from ism_method.get_method import get_method
+from ism_method.mongodb import get_collection
 from tqdm import tqdm
 
 
