@@ -6,10 +6,9 @@ from tqdm import tqdm
 from ism_method.mongodb import get_collection
 
 
-def get_all_tex_files(directory):
+def txt(directory):
     tex_files = []
-    for path in Path(directory).rglob("*.txt"):
-        tex_files.append(path)
+    tex_files.extend(iter(Path(directory).rglob("*.txt")))
     return tex_files
 
 
@@ -23,16 +22,17 @@ def parse_info(text: str) -> dict:
     return data
 
 
-def write2col(collection, delete_old=False):
+def write2col(collection, directory=Path(__file__).parents[2] / "dataset",delete_old=False):
     # Clear the collection before inserting new data
     if delete_old:
         collection.delete_many({})
     else:
         logging.warning("The collection is not cleared before inserting new data.")
-    directory = Path(__file__).parents[2] / "dataset"
-    txt_files = get_all_tex_files(directory)
-    for tex_file in tqdm(txt_files, desc="Processing files"):
-        with open(tex_file, "r", encoding="utf-8") as file:
+    txt_files = txt(directory)
+    print(txt_files)
+    for txt_file in tqdm(txt_files, desc="Processing files"):
+        logging.info(f"Processing file: {txt_file}")
+        with open(txt_file, "r", encoding="utf-8") as file:
             content = file.read()
             # Connect to MongoDB
             # Parse the content into a dictionary
@@ -62,5 +62,6 @@ def write2col(collection, delete_old=False):
 
 
 def main():
+    logging.basicConfig(level=logging.INFO)
     collection = get_collection()
-    write2col(collection, delete_old=True)
+    write2col(collection, directory="/workspace/project/ism_method/dataset",delete_old=True)

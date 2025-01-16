@@ -1,6 +1,6 @@
 mongodb:
-  url: mongodb://172.17.0.1:27017/
+  url: mongodb://zqy:zqy123456mongodb@172.17.0.1:27017/?authSource=ism
   database: ism
-  collection: ism_info
+  collection: ism_test
 api:
   url: http://172.17.0.1:8000/v1
